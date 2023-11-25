@@ -1,6 +1,7 @@
 from data_var import *
 from generators.date_generator import *
 from generators.isan_generator import *
+from generators.zipcode_generator import *
 
 import pytest
 
@@ -22,3 +23,7 @@ class TestPersonalData:
 class TestDateGenerator:
     def test_date_generator(self):
         assert len(random_date()) == 10
+
+class TestZipcodeGenerator:
+    def test_zipcode_generator(self):
+        assert len(generate_zipcode()) == 6

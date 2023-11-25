@@ -5,6 +5,7 @@ from data_var import *
 from generators.isan_generator import generate_isan
 from generators.date_generator import random_date
 from generators.phone_number_generator import generate_phone_number
+from generators.zipcode_generator import generate_zipcode
 
 def remake_json(data):
     i_name = 0
@@ -17,7 +18,7 @@ def remake_json(data):
                 i_name = 0
             else:
                 i_name += 1
-                
+
         elif 'last_name' in key:
             data[key] = SURNAME[i_surname]
             if i_surname == (len(SURNAME)-1):
@@ -54,8 +55,12 @@ def remake_json(data):
             data[key] = STREET[num]
             STREET.pop(num)
         
+        elif 'zipcode' in key:
+            data[key] = generate_zipcode()
         else:
             continue
+
+    return data
 
 def open_json_file(file_path):
     if os.path.exists(file_path):
@@ -66,10 +71,15 @@ def open_json_file(file_path):
             file_name = os.path.splitext(file)[0]
             with open(input_file_path, 'r') as f:
                 data = json.load(f)
+                return {'data': data, "file_name": file_name}
             
-            remake_json(data)
+def save_json_file(file_path, file_name, data):
+    file_output_path = f'{file_path}/{file_name}.json'
 
-            file_output_path = f'{file_path}/{file_name}.json'
+    with open(file_output_path, 'w') as d:
+        json.dump(data, d, indent=2)
 
-            with open(file_output_path, 'w') as d:
-                json.dump(data, d, indent=2)
+def json_remake_data(file_path):
+    data, file_name = open_json_file(file_path)['data'], open_json_file(file_path)['file_name']
+    rj_data = remake_json(data)
+    save_json_file(file_path, file_name, rj_data)
