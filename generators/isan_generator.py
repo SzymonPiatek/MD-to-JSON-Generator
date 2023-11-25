@@ -1,4 +1,5 @@
 import random
+from data_var import LETTERS
 
 def generate_number():
     unique_number = ''.join(random.choice('012345679') for _ in range(4))
@@ -9,7 +10,7 @@ def generate_str():
     return unique_str
 
 def random_letter():
-    letter = random.choice('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
+    letter = random.choice(LETTERS)
     return letter
 
 def generate_isan(): 

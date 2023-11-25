@@ -1,7 +1,7 @@
 import random
 from datetime import datetime, timedelta
 
-def random_date():
+def generate_random_date():
     start_date = datetime(2000, 1, 1)
     end_date = datetime(2023, 11, 25)
 
