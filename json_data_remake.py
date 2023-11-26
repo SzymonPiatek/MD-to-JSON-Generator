@@ -7,6 +7,7 @@ from generators.date_generator import generate_random_date
 from generators.phone_number_generator import generate_phone_number
 from generators.zipcode_generator import generate_zipcode
 from generators.email_generator import generate_email
+from json_generate import save_json_file
 
 def remake_json(data):
     i_first_name = 0
@@ -104,21 +105,22 @@ def remake_json(data):
 def open_json_file(file_path):
     if os.path.exists(file_path):
         files = os.listdir(file_path)
-
+        result = []
         for file in files:
             input_file_path = os.path.join(file_path, file)
             file_name = os.path.splitext(file)[0]
             with open(input_file_path, 'r') as f:
                 data = json.load(f)
-                return {'data': data, "file_name": file_name}
-            
-def save_json_file(file_path, file_name, data):
-    file_output_path = f'{file_path}/{file_name}.json'
-
-    with open(file_output_path, 'w') as d:
-        json.dump(data, d, indent=2)
+                result.append({'data': data, "file_name": file_name})
+        return result
 
 def json_remake_data(file_path):
-    data, file_name = open_json_file(file_path)['data'], open_json_file(file_path)['file_name']
-    rj_data = remake_json(data)
-    save_json_file(file_path, file_name, rj_data)
+    if os.path.exists(file_path):
+        files = os.listdir(file_path)
+        i = 0
+        for _ in files:
+            data = open_json_file(file_path)[i]['data']
+            file_name = open_json_file(file_path)[i]['file_name']
+            rj_data = remake_json(data)
+            save_json_file(file_path, file_name, rj_data)
+            i += 1
