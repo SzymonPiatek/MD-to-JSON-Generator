@@ -1,22 +1,12 @@
 import random
-import json
-import os 
 from directories import *
-
-def open_json_file(file_path):
-    if os.path.exists(file_path):
-        files = os.listdir(file_path)
-
-        for file in files:
-            input_file_path = os.path.join(file_path, file)
-            with open(input_file_path, 'r') as f:
-                data = json.load(f)
-                return data
+from json_methods import open_json_file
 
 def generate_phone_number():
-    number = random.choices('0123456789', k=9)
-    number = ''.join(map(str, number))
-    if number[0] == 0:
+    first_number = ''.join(random.choices('123456789'))
+    past_numbers = ''.join(random.choices('0123456789', k=8))
+    number = first_number + past_numbers
+    if number[0] == '0':
         generate_phone_number()
     else:
         if len(number) != 9:

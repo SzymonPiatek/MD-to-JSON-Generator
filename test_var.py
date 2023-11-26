@@ -4,6 +4,7 @@ from generators.isan_generator import *
 from generators.zipcode_generator import *
 from generators.email_generator  import *
 from generators.phone_number_generator import *
+from generators.nip_generator import *
 
 class TestIsanGenerator:
     def test_isan_at_the_start(self):
@@ -21,26 +22,28 @@ class TestPersonalData:
         assert len(SURNAME) == len(SEX)
 
 class TestDateGenerator:
-    def test_date_generator(self):
+    def test_len_date_generator(self):
         assert len(generate_random_date()) == 10
 
 class TestZipcodeGenerator:
-    def test_zipcode_generator(self):
+    def test_len_zipcode_generator(self):
         assert len(generate_zipcode()) == 6
 
 class TestEmailGenerator:
-    def test_email_generator(self):
+    def test_email_generator_for_corp(self):
         emails = []
         for name in CORP_NAME:
-            emails.append(generate_email(name))
+            emails.append(generate_email_corp(name))
         for email in emails:
             email_host = email.split('@')[1]
             assert '@' in email
             assert email_host in EMAIL_HOST
 
 class TestPhoneNumberGenerator:
-    def test_phone_number_generator(self):
+    def test_len_phone_number_generator(self):
         assert len(generate_phone_number()) == 9
+    def test_no_zero_phone_number(self):
+        assert generate_phone_number()[0] != 0
     def test_many_phone_number(self):
         phone_book = []
         for i in range(100):
@@ -49,3 +52,10 @@ class TestPhoneNumberGenerator:
         for number in phone_book:
             assert len(number) == 9
             assert number[0] != 0
+
+class TestNipGenerator:
+    def test_len_nip_generator(self):
+        assert len(generate_nip()) == 10
+    def test_no_zero_nip(self):
+        assert generate_nip()[0] != 0
+    
